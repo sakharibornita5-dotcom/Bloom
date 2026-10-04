@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bloom - Fashion Store</title>
+<link href="https://fonts.googleapis.com/css2?family=Figtree:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#fff;--tx:#282c3f;--mut:#7e818c;--card:#fff;--bd:#eaeaec;--soft:#fff0f3;--pink:#ff3f6c;--or:#ff905a;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#15161b;--tx:#f1f1f4;--mut:#a0a3b0;--card:#1e1f26;--bd:#31333d;--soft:#2a1d23}}
+:root[data-theme="dark"]{--bg:#15161b;--tx:#f1f1f4;--mut:#a0a3b0;--card:#1e1f26;--bd:#31333d;--soft:#2a1d23}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--tx);font:15px/1.45 Figtree,system-ui,sans-serif}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--pink);outline-offset:2px}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--card);border-bottom:1px solid var(--bd);display:flex;align-items:center;gap:16px;padding:10px 20px;flex-wrap:wrap}
+.logo{font-weight:800;font-size:26px;background:linear-gradient(90deg,var(--pink),var(--or));-webkit-background-clip:text;background-clip:text;color:transparent;cursor:pointer}
+nav{display:flex;gap:4px;flex-wrap:wrap}
+nav button{background:none;border:0;padding:8px 10px;font-weight:600;border-bottom:3px solid transparent}
+nav button.on,nav button:hover{border-color:var(--pink)}
+.search{flex:1;min-width:180px;background:var(--soft);border:1px solid var(--bd);border-radius:6px;padding:9px 12px}
+.acts{display:flex;gap:6px}
+.acts button{background:none;border:0;padding:6px 10px;font-weight:600;position:relative}
+.badge{background:var(--pink);color:#fff;border-radius:99px;font-size:11px;padding:1px 6px;margin-left:3px}
+.hero{background:linear-gradient(100deg,var(--pink),var(--or));color:#fff;padding:34px 24px;text-align:center}
+.hero h1{margin:0 0 6px;font-size:clamp(26px,5vw,44px);font-weight:800}
+.hero p{margin:0;opacity:.95}
+.wrap{max-width:1200px;margin:0 auto;padding:20px}
+.shop{display:grid;grid-template-columns:210px 1fr;gap:24px}
+aside{border-right:1px solid var(--bd);padding-right:16px}
+aside h4{margin:14px 0 8px}
+aside label{display:block;padding:3px 0;cursor:pointer}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:8px;overflow:hidden;position:relative}
+.tile{height:200px;display:grid;place-items:center;font-size:76px;cursor:pointer}
+.tile,.row .t{overflow:hidden}.tile svg,.row .t svg{width:62%;height:62%}.tile img,.row .t img{width:100%;height:100%;object-fit:cover}
+.heart{position:absolute;top:8px;right:8px;background:var(--card);border:0;border-radius:50%;width:34px;height:34px;font-size:17px}
+.info{padding:10px 12px 12px}
+.brand{font-weight:800}
+.nm{color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pr b{margin-right:6px}.pr s{color:var(--mut);margin-right:6px}.pr em{color:var(--or);font-style:normal;font-weight:600}
+.btn{background:var(--pink);color:#fff;border:0;border-radius:6px;padding:10px 16px;font-weight:800}
+.btn.ghost{background:none;color:var(--pink);border:1px solid var(--pink)}
+.btn.sm{padding:6px 10px;font-size:13px}
+.row{display:flex;gap:12px;align-items:center;border-bottom:1px solid var(--bd);padding:12px 0}
+.row .t{width:64px;height:64px;border-radius:6px;display:grid;place-items:center;font-size:32px}
+.row .g{flex:1}
+table{width:100%;border-collapse:collapse}
+th,td{text-align:left;padding:8px;border-bottom:1px solid var(--bd)}
+.tw{overflow-x:auto}
+form.f{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px;margin:14px 0}
+form.f input,form.f select,.auth input{width:100%;padding:9px;border:1px solid var(--bd);border-radius:6px;background:var(--card)}
+.auth{max-width:360px;margin:30px auto;display:grid;gap:10px}
+.empty{text-align:center;color:var(--mut);padding:50px 0}
+dialog{border:1px solid var(--bd);border-radius:10px;background:var(--card);color:var(--tx);max-width:520px;width:92%}
+dialog::backdrop{background:#0008}
+.sizes{display:flex;gap:8px;margin:10px 0}
+.sizes button{border:1px solid var(--bd);background:none;border-radius:99px;width:42px;height:42px}
+.sizes button.on{border-color:var(--pink);color:var(--pink);font-weight:800}
+#toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--tx);color:var(--bg);padding:10px 18px;border-radius:6px;opacity:0;pointer-events:none;transition:opacity .2s}
+#toast.on{opacity:1}
+.shop.co{grid-template-columns:1fr 320px}
+@media(max-width:720px){.shop.co,.shop{grid-template-columns:1fr}aside{border:0;padding:0}}
+@media(prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header>
+  <div class="logo" id="logo">Bloom</div>
+  <nav id="nav"></nav>
+  <input class="search" id="q" type="search" placeholder="Search for clothes, brands and more" aria-label="Search">
+  <div class="acts" id="acts"></div>
+</header>
+<main id="app"></main>
+<dialog id="dlg"></dialog>
+<div id="toast" role="status"></div>
+<script>
+// ---------- storage (browser only, with in-memory fallback) ----------
+const mem={};
+const DB={
+  get(k,d){try{const v=localStorage.getItem('bloom:'+k);return v?JSON.parse(v):(k in mem?mem[k]:d)}catch(e){return k in mem?mem[k]:d}},
+  set(k,v){mem[k]=v;try{localStorage.setItem('bloom:'+k,JSON.stringify(v))}catch(e){}}
+};
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=s=>document.querySelector(s);
+const inr=n=>'₹'+Number(n).toLocaleString('en-IN');
+const CATS=['Men','Women','Kids','Footwear','Accessories'];
+const SEED=[
+ ['Roadster','Slim Fit Denim Jacket','Men',2499,3999,'🧥','#7aa5d2'],['H&M','Cotton Crew T-Shirt','Men',599,999,'👕','#f2b8a2'],
+ ['Libas','Printed Anarkali Kurta','Women',1299,2599,'👗','#ff8fab'],['Biba','Floral Maxi Dress','Women',1799,3299,'👗','#ffc86b'],
+ ['Zudio','High-Rise Mom Jeans','Women',999,1799,'👖','#9bb7e0'],['Max','Kids Dino Hoodie','Kids',799,1299,'🧒','#b8e0a2'],
+ ['Puma','Running Sneakers','Footwear',3199,5999,'👟','#ff6b6b'],['Bata','Leather Formal Shoes','Footwear',1899,2999,'👞','#c49a6c'],
+ ['Crocs','Classic Clogs','Footwear',2495,3495,'🩴','#8ad0c8'],['Fossil','Analog Wrist Watch','Accessories',4999,8999,'⌚','#d4af37'],
+ ['Lavie','Structured Tote Bag','Accessories',1599,3199,'👜','#e58fb5'],['Ray-Ban','Aviator Sunglasses','Accessories',5490,7990,'🕶️','#6b7a8f']
+].map((p,i)=>({id:i+1,brand:p[0],name:p[1],cat:p[2],price:p[3],mrp:p[4],emoji:p[5],color:p[6]}));
+let products=DB.get('products',null)||SEED;
+let users=DB.get('users',null)||[{name:'Admin',email:'admin@bloom.com',pw:'admin123',role:'admin'}];
+let session=DB.get('session',null);
+const save=()=>{DB.set('products',products);DB.set('users',users);DB.set('session',session)};
+save();
+const key=()=>session?session.email:'guest';
+const cart=()=>DB.get('cart:'+key(),[]), wish=()=>DB.get('wish:'+key(),[]);
+const setCart=v=>DB.set('cart:'+key(),v), setWish=v=>DB.set('wish:'+key(),v);
+const P=id=>products.find(p=>p.id===id);
+const off=p=>Math.round((1-p.price/p.mrp)*100);
+
+// ---------- state ----------
+let view='shop',cat='All',maxP=1e9,sort='rec',editing=null;
+function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('on');clearTimeout(toast.t);toast.t=setTimeout(()=>t.classList.remove('on'),1800)}
+function go(v,c){view=v;if(c)cat=c;render()}
+
+// ---------- header ----------
+function header(){
+  $('#nav').innerHTML=['All',...CATS].map(c=>`<button class="${view==='shop'&&cat===c?'on':''}" data-c="${c}">${c==='All'?'All':c}</button>`).join('');
+  $('#acts').innerHTML=`
+   <button data-v="wish">♡ Wishlist<span class="badge">${wish().length}</span></button>
+   <button data-v="cart">🛍 Bag<span class="badge">${cart().reduce((a,i)=>a+i.qty,0)}</span></button>
+   ${session?'<button data-v="orders">Orders</button>':''}
+   ${session?.role==='admin'?'<button data-v="admin">Admin</button>':''}
+   <button data-v="${session?'out':'auth'}">${session?'Logout ('+esc(session.name.split(' ')[0])+')':'Login'}</button>`;
+}
+$('#nav').onclick=e=>{const c=e.target.dataset.c;if(c)go('shop',c)};
+$('#logo').onclick=()=>{$('#q').value='';go('shop','All')};
+$('#acts').onclick=e=>{const v=e.target.closest('button')?.dataset.v;if(!v)return;if(v==='out'){session=null;save();toast('Logged out');go('shop')}else go(v)};
+$('#q').oninput=()=>{view='shop';render()};
+
+// ---------- product images ----------
+const SHAPES={
+ Men:'<path d="M30 20l18-8c3 8 21 8 24 0l18 8 14 24-16 8-6-8v56H38V44l-6 8-16-8z"/>',
+ Women:'<path d="M42 10h36l-6 30 26 70H22l26-70z"/><path d="M52 10c2 10 14 10 16 0" fill="none" stroke="#0003" stroke-width="3"/>',
+ Kids:'<path d="M34 24l14-8c3 6 21 6 24 0l14 8 10 18-12 6-4-6v44H40V42l-4 6-12-6z"/><circle cx="60" cy="66" r="9" fill="#fff8"/>',
+ Footwear:'<path d="M10 78c14 0 24-8 30-24 10 8 22 10 34 12 14 2 32 6 36 20v6H10z"/><path d="M10 96h100" stroke="#0004" stroke-width="5"/>',
+ Accessories:'<rect x="22" y="48" width="76" height="62" rx="10"/><path d="M42 48c0-24 36-24 36 0" fill="none" stroke="#0004" stroke-width="6"/>'
+};
+function art(p){
+  if(p.img)return `<img src="${esc(p.img)}" alt="${esc(p.brand+' '+p.name)}">`;
+  return `<svg viewBox="0 0 120 120" role="img" aria-label="${esc(p.name)}" fill="${esc(p.color)}">${SHAPES[p.cat]||SHAPES.Men}</svg>`;
+}
+function shrink(file){return new Promise(ok=>{const r=new FileReader();r.onload=()=>{const im=new Image();im.onload=()=>{const k=Math.min(1,480/Math.max(im.width,im.height)),c=document.createElement('canvas');c.width=im.width*k;c.height=im.height*k;c.getContext('2d').drawImage(im,0,0,c.width,c.height);ok(c.toDataURL('image/jpeg',.8))};im.onerror=()=>ok('');im.src=r.result};r.readAsDataURL(file)})}
+
+// ---------- shop ----------
+function card(p){
+  const w=wish().includes(p.id);
+  return `<div class="card"><div class="tile" data-open="${p.id}" style="background:linear-gradient(160deg,${esc(p.color)}55,${esc(p.color)}22)">${art(p)}</div>
+  <button class="heart" data-w="${p.id}" aria-label="Wishlist" style="color:${w?'var(--pink)':'var(--mut)'}">${w?'♥':'♡'}</button>
+  <div class="info"><div class="brand">${esc(p.brand)}</div><div class="nm">${esc(p.name)}</div>
+  <div class="pr"><b>${inr(p.price)}</b><s>${inr(p.mrp)}</s><em>(${off(p)}% OFF)</em></div></div></div>`;
+}
+function shop(){
+  const q=$('#q').value.trim().toLowerCase();
+  let list=products.filter(p=>(cat==='All'||p.cat===cat)&&p.price<=maxP&&(!q||(p.name+p.brand+p.cat).toLowerCase().includes(q)));
+  if(sort==='lo')list.sort((a,b)=>a.price-b.price);if(sort==='hi')list.sort((a,b)=>b.price-a.price);if(sort==='off')list.sort((a,b)=>off(b)-off(a));
+  const pr=[['Any price',1e9],['Under ₹1,000',1000],['Under ₹2,500',2500],['Under ₹5,000',5000]];
+  $('#app').innerHTML=`<div class="hero"><h1>End of Season Sale</h1><p>Up to 60% off on top brands</p></div>
+  <div class="wrap shop"><aside><h4>Price</h4>${pr.map(x=>`<label><input type="radio" name="pr" value="${x[1]}" ${maxP===x[1]?'checked':''}> ${x[0]}</label>`).join('')}
+  <h4>Sort by</h4><select id="sort"><option value="rec">Recommended</option><option value="lo" ${sort==='lo'?'selected':''}>Price: low to high</option><option value="hi" ${sort==='hi'?'selected':''}>Price: high to low</option><option value="off" ${sort==='off'?'selected':''}>Biggest discount</option></select></aside>
+  <section><p><b>${cat==='All'?'All products':cat}</b> <span style="color:var(--mut)">- ${list.length} items</span></p>
+  ${list.length?`<div class="grid">${list.map(card).join('')}</div>`:'<div class="empty">No products match. Try a different search or filter.</div>'}</section></div>`;
+  document.querySelectorAll('[name=pr]').forEach(r=>r.onchange=()=>{maxP=+r.value;render()});
+  $('#sort').onchange=e=>{sort=e.target.value;render()};
+}
+$('#app').onclick=e=>{
+  const t=e.target.closest('[data-open],[data-w],[data-rm],[data-qty],[data-mv],[data-edit],[data-del],[data-cancel]');if(!t)return;const d=t.dataset;
+  if(d.open)openP(+d.open);
+  if(d.w)toggleW(+d.w);
+  if(d.rm){setCart(cart().filter((_,i)=>i!==+d.rm-1));render()}
+  if(d.qty){const [i,n]=d.qty.split(':').map(Number);const c=cart();c[i].qty=Math.max(1,c[i].qty+n);setCart(c);render()}
+  if(d.mv){const p=+d.mv;setWish(wish().filter(x=>x!==p));addCart(p,'M');render()}
+  if(d.cancel&&confirm('Cancel this order?')){const k='orders:'+key();DB.set(k,DB.get(k,[]).map(o=>o.id===d.cancel?{...o,status:'Cancelled'}:o));toast('Order cancelled');render()}
+  if(d.edit){editing=+d.edit;render()}
+  if(d.del&&confirm('Delete this product?')){products=products.filter(p=>p.id!==+d.del);save();toast('Product deleted');render()}
+};
+function toggleW(id){const w=wish();setWish(w.includes(id)?w.filter(x=>x!==id):[...w,id]);toast(w.includes(id)?'Removed from wishlist':'Added to wishlist');render()}
+function addCart(id,size){const c=cart(),f=c.find(i=>i.id===id&&i.size===size);f?f.qty++:c.push({id,size,qty:1});setCart(c);toast('Added to bag')}
+
+// ---------- product detail ----------
+function openP(id){
+  const p=P(id);let size='M';
+  $('#dlg').innerHTML=`<div class="tile" style="height:180px;border-radius:8px;background:linear-gradient(160deg,${esc(p.color)}55,${esc(p.color)}22)">${art(p)}</div>
+  <h3 style="margin:12px 0 2px">${esc(p.brand)}</h3><div style="color:var(--mut)">${esc(p.name)}</div>
+  <div class="pr" style="margin:8px 0"><b style="font-size:20px">${inr(p.price)}</b><s>${inr(p.mrp)}</s><em>(${off(p)}% OFF)</em></div>
+  <b>Select size</b><div class="sizes">${['S','M','L','XL'].map(s=>`<button data-s="${s}" class="${s===size?'on':''}">${s}</button>`).join('')}</div>
+  <div style="display:flex;gap:8px"><button class="btn" id="add">Add to bag</button><button class="btn ghost" id="wl">Wishlist</button><button class="btn ghost" id="cl" style="margin-left:auto">Close</button></div>`;
+  $('#dlg').showModal();
+  $('#dlg').onclick=e=>{const s=e.target.dataset.s;if(s){size=s;document.querySelectorAll('.sizes button').forEach(b=>b.classList.toggle('on',b.dataset.s===s))}};
+  $('#add').onclick=()=>{addCart(id,size);$('#dlg').close();render()};
+  $('#wl').onclick=()=>{toggleW(id);$('#dlg').close()};
+  $('#cl').onclick=()=>$('#dlg').close();
+}
+
+// ---------- cart & wishlist ----------
+function cartView(){
+  const c=cart();let tot=0,mrp=0;
+  const rows=c.map((i,x)=>{const p=P(i.id);if(!p)return'';tot+=p.price*i.qty;mrp+=p.mrp*i.qty;
+   return `<div class="row"><div class="t" style="background:${esc(p.color)}44">${art(p)}</div><div class="g"><b>${esc(p.brand)}</b> ${esc(p.name)}<br><span style="color:var(--mut)">Size ${i.size}</span></div>
+   <div><button class="btn ghost sm" data-qty="${x}:-1">-</button> ${i.qty} <button class="btn ghost sm" data-qty="${x}:1">+</button></div><b>${inr(p.price*i.qty)}</b><button class="btn ghost sm" data-rm="${x+1}">Remove</button></div>`}).join('');
+  $('#app').innerHTML=`<div class="wrap"><h2>Shopping bag</h2>${c.length?rows+`<p>Total MRP: ${inr(mrp)}<br>Discount: -${inr(mrp-tot)}<br><b style="font-size:20px">To pay: ${inr(tot)}</b></p><button class="btn" id="co">Proceed to checkout</button>`:'<div class="empty">Your bag is empty. Add something you love.</div>'}</div>`;
+  const b=$('#co');if(b)b.onclick=()=>{if(!session){toast('Log in to continue to checkout');return go('auth')}go('checkout')};
+}
+function wishView(){
+  const w=wish().map(P).filter(Boolean);
+  $('#app').innerHTML=`<div class="wrap"><h2>Your wishlist</h2>${w.length?`<div class="grid">${w.map(p=>card(p)+'').join('')}</div>`:'<div class="empty">Nothing saved yet. Tap the heart on any product.</div>'}</div>`;
+}
+
+// ---------- checkout & orders ----------
+function checkoutView(){
+  const c=cart().map(i=>({...i,p:P(i.id)})).filter(i=>i.p);
+  const tot=c.reduce((a,i)=>a+i.p.price*i.qty,0),mrp=c.reduce((a,i)=>a+i.p.mrp*i.qty,0);
+  $('#app').innerHTML=`<div class="wrap"><h2>Checkout</h2><div class="shop co">
+  <form class="f" id="cf" style="grid-template-columns:1fr 1fr;align-content:start">
+   <input name="name" placeholder="Full name" value="${esc(session.name)}" required>
+   <input name="phone" placeholder="10-digit mobile number" pattern="[0-9]{10}" required>
+   <input name="addr" placeholder="Address (house, street, area)" required style="grid-column:1/-1">
+   <input name="city" placeholder="City" required><input name="pin" placeholder="6-digit pincode" pattern="[0-9]{6}" required>
+   <select name="pay" style="grid-column:1/-1"><option>Cash on delivery</option><option>UPI</option><option>Card</option></select>
+   <button class="btn" style="grid-column:1/-1">Place order - ${inr(tot)}</button></form>
+  <div><h4 style="margin-top:0">Order summary</h4>${c.map(i=>`<div class="row"><div class="t" style="background:${esc(i.p.color)}44">${art(i.p)}</div><div class="g">${esc(i.p.name)}<br><span style="color:var(--mut)">Size ${esc(i.size)} x ${i.qty}</span></div><b>${inr(i.p.price*i.qty)}</b></div>`).join('')}
+  <p>Total MRP: ${inr(mrp)}<br>Discount: -${inr(mrp-tot)}<br><b style="font-size:18px">To pay: ${inr(tot)}</b></p></div></div></div>`;
+  $('#cf').onsubmit=e=>{e.preventDefault();const f=Object.fromEntries(new FormData(e.target));
+    const o={id:'BL'+Date.now().toString().slice(-8),date:new Date().toISOString(),status:'Placed',total:tot,pay:f.pay,
+      addr:`${f.name}, ${f.phone}, ${f.addr}, ${f.city} - ${f.pin}`,
+      items:c.map(i=>({id:i.id,brand:i.p.brand,name:i.p.name,cat:i.p.cat,color:i.p.color,size:i.size,qty:i.qty,price:i.p.price}))};
+    DB.set('orders:'+key(),[o,...DB.get('orders:'+key(),[])]);setCart([]);toast('Order placed!');go('orders')};
+}
+function ordersView(){
+  const os=DB.get('orders:'+key(),[]),m='color:var(--mut)';
+  $('#app').innerHTML=`<div class="wrap"><h2>My orders</h2>${os.length?os.map(o=>`<div class="card" style="padding:14px;margin-bottom:14px">
+  <div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:space-between"><b>Order ${esc(o.id)}</b><span style="${m}">${new Date(o.date).toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})}</span><b style="color:${o.status==='Cancelled'?'var(--mut)':'var(--pink)'}">${esc(o.status)}</b></div>
+  ${o.items.map(i=>`<div class="row"><div class="t" style="background:${esc(i.color)}44">${art(P(i.id)||i)}</div><div class="g"><b>${esc(i.brand)}</b> ${esc(i.name)}<br><span style="${m}">Size ${esc(i.size)} x ${i.qty}</span></div><b>${inr(i.price*i.qty)}</b></div>`).join('')}
+  <p style="margin:10px 0 0"><b>Total ${inr(o.total)}</b> - ${esc(o.pay)}<br><span style="${m}">Deliver to: ${esc(o.addr)}</span></p>
+  ${o.status==='Placed'?`<button class="btn ghost sm" data-cancel="${esc(o.id)}" style="margin-top:8px">Cancel order</button>`:''}</div>`).join(''):'<div class="empty">No orders yet. Your orders will show up here.</div>'}</div>`;
+}
+
+// ---------- auth ----------
+function authView(mode='in'){
+  $('#app').innerHTML=`<div class="auth"><h2 style="margin:0">${mode==='in'?'Log in':'Create account'}</h2>
+  ${mode==='up'?'<input id="n" placeholder="Full name">':''}<input id="e" type="email" placeholder="Email"><input id="p" type="password" placeholder="Password (6+ characters)">
+  <button class="btn" id="go">${mode==='in'?'Log in':'Sign up'}</button>
+  <button class="btn ghost" id="sw">${mode==='in'?'New here? Create an account':'Already registered? Log in'}</button>
+  ${mode==='in'?'<small style="color:var(--mut)">Try the admin panel: admin@bloom.com / admin123</small>':''}</div>`;
+  $('#sw').onclick=()=>authView(mode==='in'?'up':'in');
+  $('#go').onclick=()=>{
+    const e=$('#e').value.trim().toLowerCase(),p=$('#p').value,n=$('#n')?.value.trim();
+    if(!e||p.length<6)return toast('Enter an email and a 6+ character password');
+    if(mode==='up'){if(!n)return toast('Enter your name');if(users.some(u=>u.email===e))return toast('That email is already registered');
+      users.push({name:n,email:e,pw:p,role:'user'});session={name:n,email:e,role:'user'}}
+    else{const u=users.find(u=>u.email===e&&u.pw===p);if(!u)return toast('Wrong email or password');session={name:u.name,email:u.email,role:u.role}}
+    save();toast('Welcome, '+session.name);go('shop');
+  };
+}
+
+// ---------- admin CRUD ----------
+function adminView(){
+  if(session?.role!=='admin'){$('#app').innerHTML='<div class="empty">Admins only. Log in with an admin account.</div>';return}
+  const p=editing?P(editing):{brand:'',name:'',cat:'Men',price:'',mrp:'',img:'',color:'#ff8fab'};
+  $('#app').innerHTML=`<div class="wrap"><h2>Manage products</h2>
+  <form class="f" id="pf"><input name="brand" placeholder="Brand" value="${esc(p.brand)}" required><input name="name" placeholder="Product name" value="${esc(p.name)}" required>
+  <select name="cat">${CATS.map(c=>`<option ${c===p.cat?'selected':''}>${c}</option>`).join('')}</select>
+  <input name="price" type="number" min="1" placeholder="Price (₹)" value="${p.price}" required><input name="mrp" type="number" min="1" placeholder="MRP (₹)" value="${p.mrp}" required>
+  <label style="font-size:13px">Product photo<input name="photo" type="file" accept="image/*"></label><input name="color" type="color" value="${esc(p.color)}">
+  <button class="btn">${editing?'Save changes':'Add product'}</button>${editing?'<button type="button" class="btn ghost" id="cx">Cancel</button>':''}</form>
+  <div class="tw"><table><tr><th>Product</th><th>Category</th><th>Price</th><th></th></tr>${products.map(x=>`<tr><td>${esc(x.brand)} ${esc(x.name)}</td><td>${esc(x.cat)}</td><td>${inr(x.price)}</td>
+  <td><button class="btn ghost sm" data-edit="${x.id}">Edit</button> <button class="btn ghost sm" data-del="${x.id}">Delete</button></td></tr>`).join('')}</table></div></div>`;
+  $('#pf').onsubmit=async e=>{e.preventDefault();const fd=new FormData(e.target),f=Object.fromEntries(fd),file=fd.get('photo');delete f.photo;f.price=+f.price;f.mrp=Math.max(+f.mrp,f.price);f.img=file&&file.size?await shrink(file):(editing?P(editing).img||'':'');
+    if(editing){Object.assign(P(editing),f);toast('Product updated')}else{products.push({id:Date.now(),...f});toast('Product added')}
+    editing=null;save();render()};
+  const cx=$('#cx');if(cx)cx.onclick=()=>{editing=null;render()};
+}
+
+function render(){
+  header();
+  ({shop,cart:cartView,wish:wishView,auth:()=>authView(),admin:adminView,checkout:()=>session&&cart().length?checkoutView():go(session?'cart':'auth'),orders:()=>session?ordersView():go('auth')})[view]();
+  window.scrollTo(0,0);
+}
+render();
+</script>
+</body>
+</html>
