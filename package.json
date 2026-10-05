@@ -1,0 +1,14 @@
+{
+  "name": "bloom-shop",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": { "start": "node --env-file=.env server.js" },
+  "engines": { "node": ">=22.13" },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.7",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "razorpay": "^2.9.6"
+  }
+}
